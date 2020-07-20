@@ -24,7 +24,7 @@ def percent(first, second=1):
     return first
 
 class MainWindow(QMainWindow):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> NoReturn:
         super().__init__(*args, **kwargs)
         self.setWindowTitle("Pyculator")
         self.setGeometry(100, 100, 280, 80)
