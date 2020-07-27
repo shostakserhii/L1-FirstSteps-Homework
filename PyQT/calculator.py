@@ -4,7 +4,7 @@ from functools import partial
 from operator import truediv, mul, add, sub
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtCore import Qt
-from typing import Dict, List, Union, Optional, NoReturn, Json
+from typing import Dict, List, Union, Optional, NoReturn
 
 from PyQt5.QtWidgets import (QApplication, 
                              QWidget,
@@ -189,7 +189,7 @@ class MainWindow(QMainWindow):
             self.temp1 = ''
             self._clearDisplay()
             self.display.setText(self.display.text()+text)
-            return
+            return None
         self.display.setText(self.display.text() + text)
 
     def buttons_processing(self) -> NoReturn:
@@ -217,10 +217,7 @@ class MainWindow(QMainWindow):
                 btn.clicked.connect(self._dotting)                
 
     def _dotting(self) -> None:
-        value = self.displayText()
-        if '.' in value:
-            return
-        else:
+        if '.' not in self.displayText():
             self.display.setText(self.display.text() + ".")
 
     def int_or_float(self, num) -> Union[int, float]:
@@ -235,20 +232,19 @@ class MainWindow(QMainWindow):
         if value == '':
             return True
 
-        if self.first_value == '':
+        elif self.first_value == '':
             self.first_value = value
             self.history.addItem(value)
             self.number_of_minus = 0
             self._clearDisplay()
-            return
+            return None
 
-        if self.first_value != '':
-            if self.second_value == '' and self.operation != '':
-                self.second_value = value
-                self.history.addItem(self.displayText())
-                self._clearDisplay()
-                self.number_of_minus = 0
-                return
+        else:
+            self.second_value = value
+            self.history.addItem(self.displayText())
+            self._clearDisplay()
+            self.number_of_minus = 0
+            return None
 
     def setDisplayText(self, text='') -> NoReturn:
         self.display.setText(text)
